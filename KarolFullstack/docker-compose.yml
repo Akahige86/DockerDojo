@@ -1,12 +1,13 @@
+
 version: "3.4"
 services:
-#  frontend:
-#    build:
-#      context: .
-#      dockerfile: ./Frontend/Dockerfile
-#      network: host
-#    ports:
-#      - "3000:3000"
+  frontend:
+    build:
+      context: .
+      dockerfile: ./Frontend/Dockerfile
+      network: host
+    ports:
+      - "3000:3000"
 #    links:
 #      - "backend:172.18.0.6"
 #    networks:
@@ -19,9 +20,11 @@ services:
         - POSTGRES_PASSWORD=1234
         - POSTGRES_USER=postgres
         - POSTGRES_DB=db
-    networks:
-      host:
-        ipv4_address: 172.18.0.5
+    ports:
+      - "5432:5432"
+#    networks:
+#      host:
+#        ipv4_address: 172.18.0.5
   backend:
     build:
       context: .
@@ -31,16 +34,16 @@ services:
     ports:
       - "8081:8081"
     links:
-      - "db:172.18.0.5"
+      - "db:localhost"
     depends_on:
       - db
 #    networks:
 #      host:
 #        ipv4_address: 172.18.0.6
-networks:
-    host:
-        driver: bridge
-        ipam:
-            driver: default
-            config:
-                - subnet: "172.18.0.0/16"
+#networks:
+#    host:
+#        driver: bridge
+#        ipam:
+#            driver: default
+#            config:
+#                - subnet: "172.18.0.0/16"
